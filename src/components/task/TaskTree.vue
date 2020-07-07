@@ -25,8 +25,12 @@
                 <input type="checkbox" disabled v-model="task.status">
             </label>
             <span class="title">{{ task.title }}</span>
-            <button @click="editMode = key">Edit</button>
-            <button @click="remove(key)">Remove</button>
+            <button @click="editMode = key" class="button edit-button">
+                Edit
+            </button>
+            <button @click="remove(key)" class="button remove-button">
+                Remove
+            </button>
             <span>{{ task.description }}</span>
             <p @click="openSubTasks(key)"
                class="sub-tasks-button"
@@ -112,7 +116,6 @@
             const remove = (index) => {
                 if (props.items[index]) {
                     let items = Object.assign([], props.items);
-                    console.log(items);
                     items.splice(index, 1);
                     context.emit('update', items);
                 } else {
@@ -155,5 +158,28 @@
     .sub-tasks-button {
         cursor: pointer ;
         /*border-bottom: solid 1px;*/
+    }
+
+    .button {
+        border: solid 1px;
+        border-radius: 4px;
+        padding: 4px 8px 4px 8px;
+        margin-left: 12px;
+    }
+    .edit-button {
+        background-color: yellow;
+        border-color: yellow;
+    }
+    .edit-button:hover {
+        background-color: #d2d22b;
+        border-color: #d2d22b;
+    }
+    .remove-button {
+        background-color: red;
+        border-color: red;
+    }
+    .remove-button:hover {
+        background-color: #db2b2b;
+        border-color: #db2b2b;
     }
 </style>
