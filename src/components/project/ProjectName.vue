@@ -31,6 +31,9 @@
             const editMode = ref(false);
             const nameInput = ref(null);
 
+            const setName = (value) => {
+                name.value = value;
+            }
             const switchToInput = () => {
                 editMode.value = true;
                 nextTick(() => {
@@ -46,6 +49,7 @@
 
             return {
                 name,
+                setName,
                 editMode,
                 nameInput,
                 switchToInput,
