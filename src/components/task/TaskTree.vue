@@ -31,7 +31,7 @@
 
     /**
      * @Component TaskTree
-     * Recursive
+     * Tasks tree. Recursive
      * @props items : Tasks[],
      * @props level : int, currentLevel
      * @emit 'update(Tasks[])' : $event - updated array of tasks

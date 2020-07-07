@@ -3,8 +3,8 @@
                   :project-name="projectName"
                   @save="projectNameSaved"
     />
-    <task-tree :items="tasks"
-               @update="updateTasks"
+    <tasks :get-tasks="getTasks"
+           :set-tasks="setTasks"
     />
 </template>
 
@@ -12,11 +12,11 @@
     import {ref, onMounted} from 'vue';
     import ProjectName from "./ProjectName";
     import {useSessionStorage} from '../../plugins/sessionStorage';
-    import TaskTree from "../task/TaskTree";
+    import Tasks from "../task/Tasks";
 
     export default {
         name: "Project",
-        components: {TaskTree, ProjectName},
+        components: {Tasks, ProjectName},
 
         setup() {
             const store = useSessionStorage();
@@ -32,11 +32,6 @@
                 return items || [];
             };
             const setTasks = value => store.set('tasks', value);
-            const tasks = ref(getTasks());
-            const updateTasks = (value) => {
-                setTasks(value);
-                tasks.value = getTasks();
-            };
 
             onMounted(() => {
                 let name = store.get('projectName');
@@ -44,8 +39,6 @@
                     projectName.value = name;
                     projectNameComponent.value.setName(name);
                 }
-
-                // tasks.value = store.get('tasks');
             });
 
             return {
@@ -53,9 +46,8 @@
                 projectName,
                 projectNameSaved,
 
-                tasks,
+                getTasks,
                 setTasks,
-                updateTasks,
             }
         }
     }
