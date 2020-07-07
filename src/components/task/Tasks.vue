@@ -19,8 +19,8 @@
         components: {TaskTree},
 
         props: {
-            getTasks: () => {},
-            setTasks: () => {},
+            getTasks: null,
+            setTasks: null,
         },
         setup(props) {
             const tasks = ref(props.getTasks());

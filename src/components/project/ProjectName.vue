@@ -1,17 +1,19 @@
 <template>
-    <h1 v-if="!editMode"
-        @click="switchToInput"
-    >
-        {{ name }}
-    </h1>
-    <div v-else>
-        <label>
-            <input v-model="name"
-                   ref="nameInput"
-                   @blur="save"
-                   @keyup.enter="save"
-            >
-        </label>
+    <div class="project-name">
+        <span v-if="!editMode"
+            @click="switchToInput"
+        >
+            {{ name }}
+        </span>
+        <div v-else>
+            <label>
+                <input v-model="name"
+                       ref="nameInput"
+                       @blur="save"
+                       @keyup.enter="save"
+                >
+            </label>
+        </div>
     </div>
 </template>
 
@@ -60,5 +62,16 @@
 </script>
 
 <style scoped>
+    .project-name {
+        margin-left: 20px;
+        color: dimgray;
+        font-size: 32px;
+    }
 
+    .project-name input {
+        color: dimgray;
+        font-size: 32px;
+        padding: 0;
+        border: 0;
+    }
 </style>

@@ -1,26 +1,43 @@
 <template>
-    <div v-for="(task, key) in items" :key="`${level}-${key}`">
+    <div v-for="(task, key) in items"
+         :key="`${level}-${key}`"
+         :class="level === 0 ? 'main-task' : 'main-task'"
+         class="task"
+    >
         <form @submit="save" @reset="reset" v-if="editMode === key">
-            <input v-model="task.title">
-            <h3>{{ task.status }}</h3>
+            <label>
+                <input type="checkbox" v-model="task.status">
+            </label>
+            <label>
+                <input v-model="task.title">
+            </label>
             <span>{{ task.description }}</span>
-<!--            <task-tree v-for="childTask in task.children"-->
-<!--                       :title="childTask.title"-->
-<!--                       :status="childTask.status"-->
-<!--                       :description="childTask.description"-->
-<!--            />-->
+            <!--            <task-tree v-for="childTask in task.children"-->
+            <!--                       :title="childTask.title"-->
+            <!--                       :status="childTask.status"-->
+            <!--                       :description="childTask.description"-->
+            <!--            />-->
             <button type="submit">Save</button>
         </form>
 
         <div v-else>
-            <h3>{{ task.title }}</h3>
-            <h3>{{ task.status }}</h3>
-            <span>{{ task.description }}</span>
-            <task-tree :items="task.children"
-                       @update="updateByKey($event, key)"
-                       :level="level + 1"
-            />
+            <label>
+                <input type="checkbox" disabled v-model="task.status">
+            </label>
+            <span class="title">{{ task.title }}</span>
             <button @click="editMode = key">Edit</button>
+            <span>{{ task.description }}</span>
+            <p @click="openSubTasks(key)"
+               class="sub-tasks-button"
+            >
+                subtasks ({{task.children.length}})
+            </p>
+            <div v-if="visibleSubTasks.includes(key)" class="child-tasks">
+                <task-tree :items="task.children"
+                           @update="updateByKey($event, key)"
+                           :level="level + 1"
+                />
+            </div>
         </div>
     </div>
     <button @click="add">Add</button>
@@ -54,8 +71,21 @@
                 default: 0,
             },
         },
+        emits: [
+            'update',
+        ],
         setup(props, context) {
             const editMode = ref(-1);
+
+            const visibleSubTasks = ref([]);
+            const openSubTasks = (index) => {
+                let findIndex = visibleSubTasks.value.indexOf(index);
+                if (findIndex === -1) {
+                    visibleSubTasks.value.push(index);
+                } else {
+                    visibleSubTasks.value.splice(findIndex, 1);
+                }
+            }
 
             const save = () => {
                 context.emit('update', props.items);
@@ -80,20 +110,17 @@
             };
 
             const updateByKey = (value, key) => {
-                console.log(value);
-                console.log(key);
-                console.log(props.items);
                 if (props.items[key]) {
                     let items = Object.assign([], props.items)
                     items[key].children = value;
-                    console.log(items);
                     context.emit('update', items);
                 }
-                console.log(props.items);
             };
 
             return {
                 editMode,
+                visibleSubTasks,
+                openSubTasks,
                 save,
                 reset,
                 add,
@@ -104,5 +131,17 @@
 </script>
 
 <style scoped>
-
+    .main-task {
+        border: solid 1px darkgray;
+        margin-bottom: 12px;
+        padding: 8px;
+    }
+    .sub-task {
+        border-bottom: solid 1px darkgray;
+        margin-left: 12px;
+    }
+    .sub-tasks-button {
+        cursor: pointer ;
+        /*border-bottom: solid 1px;*/
+    }
 </style>

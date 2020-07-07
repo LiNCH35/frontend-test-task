@@ -3,6 +3,7 @@
                   :project-name="projectName"
                   @save="projectNameSaved"
     />
+    <hr>
     <tasks :get-tasks="getTasks"
            :set-tasks="setTasks"
     />
@@ -21,17 +22,17 @@
         setup() {
             const store = useSessionStorage();
 
-            const projectNameComponent = ref(null);
-            const projectName = ref('New Project');
-            const projectNameSaved = (value) => {
-                store.set('projectName', value);
-            };
-
             const getTasks = () => {
                 let items = store.get('tasks');
                 return items || [];
             };
             const setTasks = value => store.set('tasks', value);
+
+            const projectNameComponent = ref(null);
+            const projectName = ref('New Project');
+            const projectNameSaved = (value) => {
+                store.set('projectName', value);
+            };
 
             onMounted(() => {
                 let name = store.get('projectName');
@@ -42,12 +43,12 @@
             });
 
             return {
+                getTasks,
+                setTasks,
+
                 projectNameComponent,
                 projectName,
                 projectNameSaved,
-
-                getTasks,
-                setTasks,
             }
         }
     }
