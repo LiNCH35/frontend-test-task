@@ -26,6 +26,7 @@
             </label>
             <span class="title">{{ task.title }}</span>
             <button @click="editMode = key">Edit</button>
+            <button @click="remove(key)">Remove</button>
             <span>{{ task.description }}</span>
             <p @click="openSubTasks(key)"
                class="sub-tasks-button"
@@ -108,6 +109,16 @@
                     editMode.value = props.items.length;
                 });
             };
+            const remove = (index) => {
+                if (props.items[index]) {
+                    let items = Object.assign([], props.items);
+                    console.log(items);
+                    items.splice(index, 1);
+                    context.emit('update', items);
+                } else {
+                    throw new Error("Task not found!");
+                }
+            };
 
             const updateByKey = (value, key) => {
                 if (props.items[key]) {
@@ -124,7 +135,8 @@
                 save,
                 reset,
                 add,
-                updateByKey
+                remove,
+                updateByKey,
             }
         }
     }
