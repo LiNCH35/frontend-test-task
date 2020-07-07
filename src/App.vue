@@ -5,14 +5,18 @@
 </template>
 
 <script>
-
     import Project from "./components/project/Project";
+    import {provideSessionStorage} from  './plugins/sessionStorage';
 
     export default {
         name: 'App',
         components: {
             Project
-        }
+        },
+
+        setup() {
+            provideSessionStorage();
+        },
     }
 </script>
 
