@@ -1,40 +1,51 @@
 <template>
-    <task-tree :items="tasks"
-               @update="updateTasks"
-    />
+  <task-tree
+      v-model:items="tasks"
+  />
 </template>
 
 <script>
-    import TaskTree from "./TaskTree";
-    import {ref} from "vue";
+import TaskTree from "./TaskTree";
+import {ref, computed} from "vue";
+import {useSessionStorage} from "@/plugins/sessionStorage";
+import {compareObjects} from '@/plugins/objectHelper'
 
-    /**
-     * @Component Tasks
-     * Root of Task tree
-     * @props getTasks : function, getter
-     * @props setTasks : function, setter
-     */
-    export default {
-        name: "Tasks",
-        components: {TaskTree},
+/**
+ * @Component Tasks
+ * Root of Task tree
+ */
+export default {
+  name: "Tasks",
+  components: {TaskTree},
 
-        props: {
-            getTasks: null,
-            setTasks: null,
-        },
-        setup(props) {
-            const tasks = ref(props.getTasks());
-            const updateTasks = (value) => {
-                props.setTasks(value);
-                tasks.value = props.getTasks();
-            };
+  setup() {
+    const store = useSessionStorage()
 
-            return {
-                updateTasks,
-                tasks,
-            }
-        }
+    const getTasksFromStore = () => {
+      let items = store.get('tasks')
+      return items || []
     }
+    const setTasksToStore = value => store.set('tasks', value)
+
+    const getTrigger = ref(0)
+    const tasks = computed({
+      get: () => {
+        getTrigger.value = +getTrigger.value;
+        return getTasksFromStore();
+      },
+      set: value => {
+        if (!compareObjects(value, getTasksFromStore())) {
+          setTasksToStore(value);
+          getTrigger.value++;
+        }
+      }
+    })
+
+    return {
+      tasks,
+    }
+  }
+}
 </script>
 
 <style scoped>

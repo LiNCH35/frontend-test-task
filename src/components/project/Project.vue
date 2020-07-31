@@ -4,15 +4,13 @@
                   @save="projectNameSaved"
     />
     <hr>
-    <tasks :get-tasks="getTasks"
-           :set-tasks="setTasks"
-    />
+    <tasks />
 </template>
 
 <script>
     import {ref, onMounted} from 'vue';
     import ProjectName from "./ProjectName";
-    import {useSessionStorage} from '../../plugins/sessionStorage';
+    import {useSessionStorage} from '@/plugins/sessionStorage';
     import Tasks from "../task/Tasks";
 
     export default {
@@ -21,12 +19,6 @@
 
         setup() {
             const store = useSessionStorage();
-
-            const getTasks = () => {
-                let items = store.get('tasks');
-                return items || [];
-            };
-            const setTasks = value => store.set('tasks', value);
 
             const projectNameComponent = ref(null);
             const projectName = ref('New Project');
@@ -43,9 +35,6 @@
             });
 
             return {
-                getTasks,
-                setTasks,
-
                 projectNameComponent,
                 projectName,
                 projectNameSaved,
