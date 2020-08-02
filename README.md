@@ -7,7 +7,7 @@ npm install
 
 ### Compiles and hot-reloads for development
 ```
-npm run serve
+npm run dev
 ```
 
 ### Compiles and minifies for production
@@ -84,7 +84,7 @@ npm run build
 - ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) Использовать TypeScript для 100% кодовой базы (исключая вёрстку и стили);
 - ![#c5f015](https://via.placeholder.com/15/c5f015/000000?text=+) Использовать [Vue Composition API](https://vue-composition-api-rfc.netlify.com/) или [vue@next](https://www.npmjs.com/package/vue/v/next);
 - ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) Использовать ESLint/TSLint для контроля качества кода (приветствуется использование настройки [KazanExpress/TSLint](https://github.com/KazanExpress/tslint));
-- ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) Использовать сборщик/бандлер (например, [webpack](https://webpack.js.org/)) для сборки приложения в SPA;
+- ![#c5f015](https://via.placeholder.com/15/c5f015/000000?text=+) Использовать сборщик/бандлер (например, [webpack](https://webpack.js.org/)) для сборки приложения в SPA;
 
 ---
 
