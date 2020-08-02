@@ -42,8 +42,8 @@
 </template>
 
 <script>
-import {ref, nextTick} from 'vue';
-import TaskEditor from "@/components/task/TaskEditor";
+import {ref, nextTick} from 'vue'
+import TaskEditor from "@/components/task/TaskEditor"
 
 /**
  * @Component TaskTree
@@ -76,17 +76,17 @@ export default {
   emits: ['update:items'],
 
   setup(props, context) {
-    const editMode = ref(null);
+    const editMode = ref(null)
 
-    const visibleSubTasks = ref(new Set());
+    const visibleSubTasks = ref(new Set())
     const toggleSubTasks = (index) => visibleSubTasks.value.has(index)
         ? visibleSubTasks.value.delete(index)
         : visibleSubTasks.value.add(index)
 
     const save = () => {
-      context.emit('update:items', props.items);
-      editMode.value = null;
-    };
+      context.emit('update:items', props.items)
+      editMode.value = null
+    }
     const add = () => {
       context.emit('update:items', [...props.items, {
         title: 'New Task',
@@ -95,15 +95,15 @@ export default {
         children: [],
       }])
 
-      nextTick(() => editMode.value = props.items.length);
-    };
+      nextTick(() => editMode.value = props.items.length - 1)
+    }
     const remove = (index) => {
       if (!props.items[index]) {
         throw new Error("Task not found!")
       }
 
       context.emit('update:items', props.items.filter((item, id) => id !== index))
-    };
+    }
 
     const updateByKey = (value, key) => {
       if (props.items[key]) {
@@ -111,7 +111,7 @@ export default {
         items[key].children = value
         context.emit('update:items', items)
       }
-    };
+    }
 
     return {
       editMode,
